@@ -30,7 +30,7 @@ public class MeetingService {
 
         meetingRepository.findById(meetingId)
                 .map(existingMeeting -> {
-                    if (updatedMeeting.getTitle() != null) {
+                    /*if (updatedMeeting.getTitle() != null) {
                         existingMeeting.setTitle(updatedMeeting.getTitle());
                     }
                     if (updatedMeeting.getDescription() != null) {
@@ -38,7 +38,7 @@ public class MeetingService {
                     }
                     if (updatedMeeting.getDateTime() != null) {
                         existingMeeting.setDateTime(updatedMeeting.getDateTime());
-                    }
+                    }*/
                     return meetingRepository.save(existingMeeting);
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Meeting not found with id " + meetingId));

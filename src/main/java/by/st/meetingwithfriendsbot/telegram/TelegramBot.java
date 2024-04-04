@@ -1,22 +1,29 @@
 package by.st.meetingwithfriendsbot.telegram;
 
 import by.st.meetingwithfriendsbot.config.BotProperties;
+import by.st.meetingwithfriendsbot.telegram.callbacks.CallbackCommandsHandler;
 import by.st.meetingwithfriendsbot.telegram.commands.CommandsHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
     private final CommandsHandler commandsHandler;
+    private final CallbackCommandsHandler callbackCommandsHandler;
 
     private final BotProperties botProperties;
+
     @Override
     public String getBotUsername() {
         return botProperties.getName();
@@ -32,22 +39,28 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String chatId = update.getMessage().getChatId().toString();
             if (update.getMessage().getText().startsWith("/")) {
-                sendMessage(commandsHandler.handleCommands(update));
+                sendMessages(commandsHandler.handleCommands(update));
+                log.info(update.getMessage().getChat().getUserName() + " Запустил бот !");
             } else {
-                sendMessage(commandsHandler.handleCommands(update));
+                sendMessages(commandsHandler.handleCommands(update));
                 /*sendMessage(new SendMessage(chatId, "unknown command please enter /start"));*/
-
             }
         } else if (update.hasCallbackQuery()) {
-           /*sendMessage(commandsHandler.handleCommands(update));*/
+            sendMessages(callbackCommandsHandler.handleCallbackCommands(update));
         }
     }
 
-    private void sendMessage(SendMessage sendMessage) {
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            log.error(e.getMessage());
+    private void sendMessages(List<PartialBotApiMethod<?>> messages) {
+        for (PartialBotApiMethod<?> message : messages) {
+            try {
+                if (message instanceof SendMessage) {
+                    execute((SendMessage) message);
+                } else if (message instanceof SendPhoto) {
+                    execute((SendPhoto) message);
+                }
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
         }
     }
 }

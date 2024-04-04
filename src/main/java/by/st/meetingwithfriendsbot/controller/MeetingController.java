@@ -1,6 +1,8 @@
 package by.st.meetingwithfriendsbot.controller;
 
 import by.st.meetingwithfriendsbot.model.Meeting;
+import by.st.meetingwithfriendsbot.service.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.MeetingApiClientImpl;
 import by.st.meetingwithfriendsbot.service.MeetingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,10 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MeetingController {
     private final MeetingService meetingService;
+    private final MeetingApiClient meetingApiClient;
+
 
     @GetMapping("/")
     public ResponseEntity<List<Meeting>> getAllMeetings() {
-        List<Meeting> meetings = meetingService.findAllMeetings();
+        List<Meeting> meetings = meetingApiClient.getAllMeetings();
         return new ResponseEntity<>(meetings,HttpStatus.OK);
     }
 
@@ -27,22 +31,5 @@ public class MeetingController {
         return new ResponseEntity<>(meeting, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{meetingId}")
-    public ResponseEntity<Object> getMeetingById(@PathVariable Long meetingId) {
-        Meeting meeting = meetingService.findMeetingById(meetingId);
-        return new ResponseEntity<>(meeting,HttpStatus.OK);
-    }
-
-    @PutMapping("/{meetingId}")
-    public ResponseEntity<Object> updateMeeting(@PathVariable Long meetingId, @RequestBody Meeting updatedMeeting) {
-        meetingService.updateMeeting(meetingId, updatedMeeting);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{meetingId}")
-    public ResponseEntity<Object> deleteMeeting(@PathVariable Long meetingId) {
-        /*meetingService.deleteMeeting(meetingId);*/
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
 }
