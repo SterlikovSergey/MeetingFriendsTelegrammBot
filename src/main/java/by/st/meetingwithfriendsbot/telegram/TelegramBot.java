@@ -8,8 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,8 +18,6 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.List;
 
 @Component
@@ -62,15 +60,15 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String chatId = update.getMessage().getChatId().toString();
+           String chatId = update.getMessage().getChatId().toString();
             if (update.getMessage().getText().startsWith("/")) {
                 sendMessages(commandsHandler.handleCommands(update));
                 log.info(update.getMessage().getChat().getUserName() + " Запустил бот !");
             } else {
                 sendMessages(commandsHandler.handleCommands(update));
                 /*sendMessage(new SendMessage(chatId, "unknown command please enter /start"));*/
-
             }
         } else if (update.hasCallbackQuery()) {
             sendMessages(callbackCommandsHandler.handleCallbackCommands(update));

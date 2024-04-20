@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +18,14 @@ public class CallbackCommandsHandler {
 
     public CallbackCommandsHandler(
             @Autowired MeetingChooseCallbackHandler meetingChooseCallbackHandler,
-            @Autowired CategoryChooseCallbackHandler categoryChooseCallbackHandler
+            @Autowired CategoryChooseCallbackHandler categoryChooseCallbackHandler,
+            @Autowired FaqCategoryCallbackHandler faqCategoryCallbackHandler
     ) {
         this.callbackHandlers = Map.of(
                 CallbackType.MEETING_CHOOSE, meetingChooseCallbackHandler,
-                CallbackType.CATEGORY_CHOOSE,categoryChooseCallbackHandler
+                CallbackType.CATEGORY_CHOOSE, categoryChooseCallbackHandler,
+                CallbackType.FAQ_CATEGORY, faqCategoryCallbackHandler
+
         );
     }
 

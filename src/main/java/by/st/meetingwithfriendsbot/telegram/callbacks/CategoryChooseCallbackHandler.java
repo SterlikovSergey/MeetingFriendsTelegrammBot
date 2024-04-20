@@ -3,7 +3,7 @@ package by.st.meetingwithfriendsbot.telegram.callbacks;
 import by.st.meetingwithfriendsbot.model.Callback;
 import by.st.meetingwithfriendsbot.model.Meeting;
 import by.st.meetingwithfriendsbot.model.enums.CallbackType;
-import by.st.meetingwithfriendsbot.service.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;

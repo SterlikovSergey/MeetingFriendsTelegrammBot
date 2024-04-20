@@ -15,13 +15,17 @@ public class CommandsHandler {
     private final Map<String,Command> commands;
 
     public CommandsHandler(@Autowired StartCommand startCommand,
-                        @Autowired CreateMeetingCommand createMeetingCommand,
-                           @Autowired ViewMeetingCategoriesCommand viewMeetingCategoriesCommand) {
+                           @Autowired CreateMeetingCommand createMeetingCommand,
+                           @Autowired ViewMeetingCategoriesCommand viewMeetingCategoriesCommand,
+                           @Autowired ViewVisaCategoriesCommand viewVisaCategoriesCommand,
+                           @Autowired ViewFaqCategoriesCommand viewFaqCategoriesCommand) {
         this.commands = Map.of(
                 CommandConstants.START, startCommand,
                 CommandConstants.CREATE_MEETING, createMeetingCommand,
                 CommandConstants.MEETING_CATEGORIES, viewMeetingCategoriesCommand,
-                CommandConstants.RETURN_MAIN_MENU,startCommand
+                CommandConstants.RETURN_MAIN_MENU, startCommand,
+                CommandConstants.GET_VISA, viewVisaCategoriesCommand,
+                CommandConstants.FAQ, viewFaqCategoriesCommand
         );
     }
 

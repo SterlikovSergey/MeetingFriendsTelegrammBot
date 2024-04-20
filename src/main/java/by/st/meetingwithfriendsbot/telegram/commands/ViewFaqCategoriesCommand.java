@@ -1,8 +1,8 @@
 package by.st.meetingwithfriendsbot.telegram.commands;
 
-import by.st.meetingwithfriendsbot.model.Meeting;
+import by.st.meetingwithfriendsbot.model.FAQ;
 import by.st.meetingwithfriendsbot.model.enums.CallbackType;
-import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.FaqApiClientImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ViewMeetingCategoriesCommand implements Command {
-    private final MeetingApiClient meetingApiClient;
+public class ViewFaqCategoriesCommand implements Command {
+
+    private final FaqApiClientImpl faqApiClient;
 
     @Override
     public SendMessage applySendMessage(Update update) {
@@ -30,28 +31,28 @@ public class ViewMeetingCategoriesCommand implements Command {
 
     @Override
     public List<PartialBotApiMethod<?>> apply(Update update) {
-        List<Meeting> meetings = meetingApiClient.getAllMeetings();
+        List<FAQ> listFaq = faqApiClient.getAllFaq();
 
         Long chatId = update.getMessage().getChatId();
         List<PartialBotApiMethod<?>> messages = new ArrayList<>();
 
-        Map<String, List<Meeting>> meetingsByCategory = meetings.stream()
-                .collect(Collectors.groupingBy(m -> m.getCategory().getName()));
+        Map<String, List<FAQ>> faqByCategory = listFaq.stream()
+                .collect(Collectors.groupingBy(FAQ::getCategory));
 
-        for (Map.Entry<String, List<Meeting>> entry : meetingsByCategory.entrySet()) {
+        for (Map.Entry<String, List<FAQ>> entry : faqByCategory.entrySet()) {
             String categoryName = entry.getKey();
-            List<Meeting> meetingsInCategory = entry.getValue();
+            List<FAQ> faqInCategory = entry.getValue();
 
             SendMessage categoryMessage = new SendMessage();
             categoryMessage.setChatId(String.valueOf(chatId));
-            categoryMessage.setText("В категории " + categoryName.toUpperCase() + " создано " + meetingsInCategory.size() + " встреч ");
+            categoryMessage.setText("В категории " + categoryName.toUpperCase() + " создано " + faqInCategory.size() + " вопросов ");
 
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText("Выбрать категорию " + categoryName.toUpperCase());
-            inlineKeyboardButton.setCallbackData(CallbackType.CATEGORY_CHOOSE + ":" + meetingsInCategory.get(0).getCategory().getId());
+            inlineKeyboardButton.setCallbackData(CallbackType.FAQ_CATEGORY + ":" + faqInCategory.get(0).getCategory());
             rowInline.add(inlineKeyboardButton);
             log.info(inlineKeyboardButton.getCallbackData() + " Saved in button value ");
             rowsInline.add(rowInline);
@@ -63,5 +64,4 @@ public class ViewMeetingCategoriesCommand implements Command {
 
         return messages;
     }
-
 }
