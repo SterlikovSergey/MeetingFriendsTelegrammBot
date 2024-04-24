@@ -14,7 +14,11 @@ import java.util.List;
 public class CreateMeetingCommand implements Command {
     @Override
     public List<PartialBotApiMethod<?>> apply(Update update) {
-        return null;
+        SendMessage sendMessage = new SendMessage();
+        Long chatId = update.getMessage().getChatId();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText("Логика создания встречи");
+        return List.of(sendMessage);
     }
 
     @Override
