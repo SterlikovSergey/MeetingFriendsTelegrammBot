@@ -1,20 +1,15 @@
 package by.st.meetingwithfriendsbot.telegram.callbacks;
 
 import by.st.meetingwithfriendsbot.model.Callback;
-import by.st.meetingwithfriendsbot.model.Language;
 import by.st.meetingwithfriendsbot.model.Meeting;
 import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
-import by.st.meetingwithfriendsbot.service.MeetingApiClient;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.net.MalformedURLException;

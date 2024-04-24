@@ -17,16 +17,14 @@ public class CommandsHandler {
     public CommandsHandler(@Autowired StartCommand startCommand,
                            @Autowired CreateMeetingCommand createMeetingCommand,
                            @Autowired ViewMeetingCategoriesCommand viewMeetingCategoriesCommand,
-                           @Autowired ViewVisaCategoriesCommand viewVisaCategoriesCommand,
-                           @Autowired ViewFaqCategoriesCommand viewFaqCategoriesCommand),
+                           @Autowired ViewFaqCategoriesCommand viewFaqCategoriesCommand,
                            @Autowired ViewMyLocation viewMylocation) {
         this.commands = Map.of(
                 CommandConstants.START, startCommand,
                 CommandConstants.CREATE_MEETING, createMeetingCommand,
                 CommandConstants.MEETING_CATEGORIES, viewMeetingCategoriesCommand,
-                CommandConstants.GET_VISA, viewVisaCategoriesCommand,
                 CommandConstants.RETURN_MAIN_MENU, startCommand,
-                CommandConstants.FAQ, viewFaqCategoriesCommand
+                CommandConstants.FAQ, viewFaqCategoriesCommand,
                 CommandConstants.MY_LOCATION,viewMylocation
         );
     }
