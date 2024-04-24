@@ -12,6 +12,6 @@ public class CommandConstants {
     public static final String HELP_MESSAGE = "Type /start to see a welcome message \n" +
             "Type /help to see this message again ";
     public static final String GET_VISA = "Получить визу";
-
+    public  static final String MY_LOCATION = "Моя локация ⁉️";
 
 }

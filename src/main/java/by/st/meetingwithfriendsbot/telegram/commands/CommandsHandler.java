@@ -18,25 +18,32 @@ public class CommandsHandler {
                            @Autowired CreateMeetingCommand createMeetingCommand,
                            @Autowired ViewMeetingCategoriesCommand viewMeetingCategoriesCommand,
                            @Autowired ViewVisaCategoriesCommand viewVisaCategoriesCommand,
-                           @Autowired ViewFaqCategoriesCommand viewFaqCategoriesCommand) {
+                           @Autowired ViewFaqCategoriesCommand viewFaqCategoriesCommand),
+                           @Autowired ViewMyLocation viewMylocation) {
         this.commands = Map.of(
                 CommandConstants.START, startCommand,
                 CommandConstants.CREATE_MEETING, createMeetingCommand,
                 CommandConstants.MEETING_CATEGORIES, viewMeetingCategoriesCommand,
-                CommandConstants.RETURN_MAIN_MENU, startCommand,
                 CommandConstants.GET_VISA, viewVisaCategoriesCommand,
+                CommandConstants.RETURN_MAIN_MENU, startCommand,
                 CommandConstants.FAQ, viewFaqCategoriesCommand
+                CommandConstants.MY_LOCATION,viewMylocation
         );
     }
 
     public List<PartialBotApiMethod<?>> handleCommands(Update update){
         String command = update.getMessage().getText();
         Long chatId = update.getMessage().getChatId();
-        var commandHandler = commands.get(command);
-        if(commandHandler != null){
+        if (update.getMessage().hasLocation()) {
+            var commandHandler = commands.get(CommandConstants.MY_LOCATION);
             return commandHandler.apply(update);
         } else {
-            return  List.of(new SendMessage(String.valueOf(chatId), CommandConstants.INCORRECT_COMMAND));
+            var commandHandler = commands.get(command);
+            if(commandHandler != null){
+                return commandHandler.apply(update);
+            } else {
+                return  List.of(new SendMessage(String.valueOf(chatId), CommandConstants.INCORRECT_COMMAND));
+            }
         }
     }
 }

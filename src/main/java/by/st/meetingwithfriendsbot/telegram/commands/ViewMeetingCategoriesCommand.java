@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class ViewMeetingCategoriesCommand implements Command {
     private final MeetingApiClient meetingApiClient;
 
+
     @Override
     public SendMessage applySendMessage(Update update) {
         return null;
@@ -30,38 +31,41 @@ public class ViewMeetingCategoriesCommand implements Command {
 
     @Override
     public List<PartialBotApiMethod<?>> apply(Update update) {
-        List<Meeting> meetings = meetingApiClient.getAllMeetings();
-
         Long chatId = update.getMessage().getChatId();
-        List<PartialBotApiMethod<?>> messages = new ArrayList<>();
+        List<Meeting> meetings = meetingApiClient.getAllMeetings();
 
         Map<String, List<Meeting>> meetingsByCategory = meetings.stream()
                 .collect(Collectors.groupingBy(m -> m.getCategory().getName()));
 
-        for (Map.Entry<String, List<Meeting>> entry : meetingsByCategory.entrySet()) {
-            String categoryName = entry.getKey();
-            List<Meeting> meetingsInCategory = entry.getValue();
+        return meetingsByCategory.entrySet().stream()
+                .map(entry -> createCategoryMessage(chatId, entry))
+                .collect(Collectors.toList());
+    }
 
-            SendMessage categoryMessage = new SendMessage();
-            categoryMessage.setChatId(String.valueOf(chatId));
-            categoryMessage.setText("В категории " + categoryName.toUpperCase() + " создано " + meetingsInCategory.size() + " встреч ");
+    private SendMessage createCategoryMessage(Long chatId, Map.Entry<String, List<Meeting>> entry) {
+        String categoryName = entry.getKey();
+        List<Meeting> meetingsInCategory = entry.getValue();
 
-            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-            List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-            List<InlineKeyboardButton> rowInline = new ArrayList<>();
-            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText("Выбрать категорию " + categoryName.toUpperCase());
-            inlineKeyboardButton.setCallbackData(CallbackType.CATEGORY_CHOOSE + ":" + meetingsInCategory.get(0).getCategory().getId());
-            rowInline.add(inlineKeyboardButton);
-            log.info(inlineKeyboardButton.getCallbackData() + " Saved in button value ");
-            rowsInline.add(rowInline);
-            inlineKeyboardMarkup.setKeyboard(rowsInline);
+        SendMessage categoryMessage = new SendMessage();
+        categoryMessage.setChatId(String.valueOf(chatId));
+        categoryMessage.setParseMode("Markdown");
+        categoryMessage.setText(String.format("*В категории %s создано %d встреч*", categoryName.toUpperCase(), meetingsInCategory.size()));
+        categoryMessage.setReplyMarkup(createInlineKeyboardMarkup(categoryName, meetingsInCategory));
 
-            categoryMessage.setReplyMarkup(inlineKeyboardMarkup);
-            messages.add(categoryMessage);
-        }
+        return categoryMessage;
+    }
 
-        return messages;
+    private InlineKeyboardMarkup createInlineKeyboardMarkup(String categoryName, List<Meeting> meetingsInCategory) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setText("Выбрать категорию " + categoryName.toUpperCase());
+        inlineKeyboardButton.setCallbackData(CallbackType.CATEGORY_CHOOSE + ":" + meetingsInCategory.get(0).getCategory().getId());
+
+        List<List<InlineKeyboardButton>> rowsInline = Collections.singletonList(Collections.singletonList(inlineKeyboardButton));
+        inlineKeyboardMarkup.setKeyboard(rowsInline);
+
+        return inlineKeyboardMarkup;
     }
 
 }

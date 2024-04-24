@@ -3,6 +3,7 @@ package by.st.meetingwithfriendsbot.telegram;
 import by.st.meetingwithfriendsbot.config.BotProperties;
 import by.st.meetingwithfriendsbot.telegram.callbacks.CallbackCommandsHandler;
 import by.st.meetingwithfriendsbot.telegram.commands.CommandsHandler;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,19 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
+
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
+
+import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
+
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
@@ -30,6 +39,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final CallbackCommandsHandler callbackCommandsHandler;
 
     private final BotProperties botProperties;
+
 
     @Autowired
     public TelegramBot(BotProperties botProperties,
@@ -48,6 +58,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
+
     @Override
     public String getBotUsername() {
         return botProperties.getName();
@@ -60,28 +71,32 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
-        if (update.hasMessage() && update.getMessage().hasText()) {
-           String chatId = update.getMessage().getChatId().toString();
-            if (update.getMessage().getText().startsWith("/")) {
+        if (update.hasMessage()) {
+            if (update.getMessage().hasText()) {
+                if (update.getMessage().getText().startsWith("/")) {
+                    sendMessages(commandsHandler.handleCommands(update));
+                    log.info(update.getMessage().getChat().getUserName() + " Запустил бот !");
+                } else {
+                    sendMessages(commandsHandler.handleCommands(update));
+                }
+            } else if (update.getMessage().hasLocation()) {
                 sendMessages(commandsHandler.handleCommands(update));
-                log.info(update.getMessage().getChat().getUserName() + " Запустил бот !");
-            } else {
-                sendMessages(commandsHandler.handleCommands(update));
-                /*sendMessage(new SendMessage(chatId, "unknown command please enter /start"));*/
+                log.info(update.getMessage().getChat().getUserName() + " Запрос локации ⁉️");
             }
         } else if (update.hasCallbackQuery()) {
             sendMessages(callbackCommandsHandler.handleCallbackCommands(update));
         }
     }
 
-    private void sendMessages(List<PartialBotApiMethod<?>> messages) {
+    public void sendMessages(List<PartialBotApiMethod<?>> messages) {
         for (PartialBotApiMethod<?> message : messages) {
             try {
                 if (message instanceof SendMessage) {
                     execute((SendMessage) message);
                 } else if (message instanceof SendPhoto) {
                     execute((SendPhoto) message);
+                } else if (message instanceof SendLocation){
+                    execute((SendLocation) message);
                 }
             } catch (TelegramApiException e) {
                 log.error(e.getMessage());
