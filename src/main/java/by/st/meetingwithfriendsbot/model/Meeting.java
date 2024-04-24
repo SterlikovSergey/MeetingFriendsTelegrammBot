@@ -48,6 +48,12 @@ public class Meeting {
     @Column(name = "photo")
     private String photo;
 
+    @Column(name = "visitors_num")
+    private Long visitorsNum;
+
+    @Column(name = "remaining_num_of_visitors")
+    private Long remainingNumOfVisitors;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Category category;
 

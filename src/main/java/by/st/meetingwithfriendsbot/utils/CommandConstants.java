@@ -8,6 +8,7 @@ public class CommandConstants {
     public static final String INCORRECT_COMMAND = "Извините, я не знаю такой команды";
     public static final String GREETINGS = "Добро пожаловать !!!";
     public static final String CHECK_REGISTRATION = "Проверить регистрацию";
+    public  static final String MY_LOCATION = "Моя локация ⁉️";
 
 
 }

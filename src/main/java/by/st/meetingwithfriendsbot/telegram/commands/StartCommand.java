@@ -1,6 +1,7 @@
 package by.st.meetingwithfriendsbot.telegram.commands;
 
 import by.st.meetingwithfriendsbot.utils.CommandConstants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class StartCommand implements Command {
     @Override
     public List<PartialBotApiMethod<?>> apply(Update update) {
@@ -37,9 +39,8 @@ public class StartCommand implements Command {
     }
 
     private void addKeyboard(SendMessage sendMessage) {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-
         List<KeyboardRow> keyboardRows = new ArrayList<>();
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
         KeyboardRow firstLayer = new KeyboardRow();
         firstLayer.add(CommandConstants.MEETING_CATEGORIES);
@@ -47,9 +48,12 @@ public class StartCommand implements Command {
         firstLayer.add(CommandConstants.CREATE_MEETING);
         keyboardRows.add(firstLayer);
 
+        KeyboardButton locationButton = new KeyboardButton(CommandConstants.MY_LOCATION);
+        locationButton.setRequestLocation(true);
+
         KeyboardRow secondLayer = new KeyboardRow();
         secondLayer.add("Админка");
-        secondLayer.add("Навигация");
+        secondLayer.add(locationButton);
         keyboardRows.add(secondLayer);
 
         KeyboardRow thirdLayer = new KeyboardRow();
