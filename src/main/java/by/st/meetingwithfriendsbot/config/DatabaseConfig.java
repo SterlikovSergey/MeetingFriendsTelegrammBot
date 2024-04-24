@@ -1,16 +1,20 @@
 package by.st.meetingwithfriendsbot.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-import java.util.Properties;
-
+import javax.sql.DataSource;
+@Configuration
 public class DatabaseConfig {
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        Properties hibernateProperties = new Properties();
-        sessionFactory.setHibernateProperties(hibernateProperties);
-        return sessionFactory;
+        @Bean
+        public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+            LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+            em.setDataSource(dataSource);
+            em.setJpaVendorAdapter(jpaVendorAdapter);
+            em.setPackagesToScan("by.st.meetingwithfriendsbot.model", "another.package.to.scan");
+            return em;
+        }
     }
-}
+

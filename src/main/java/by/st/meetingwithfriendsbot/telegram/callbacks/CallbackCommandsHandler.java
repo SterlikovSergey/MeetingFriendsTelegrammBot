@@ -19,11 +19,13 @@ public class CallbackCommandsHandler {
 
     public CallbackCommandsHandler(
             @Autowired MeetingChooseCallbackHandler meetingChooseCallbackHandler,
-            @Autowired CategoryChooseCallbackHandler categoryChooseCallbackHandler
+            @Autowired CategoryChooseCallbackHandler categoryChooseCallbackHandler,
+            @Autowired ViewMeetingLocationCallbackHandler viewMeetingLocationCallbackHandler
     ) {
         this.callbackHandlers = Map.of(
                 CallbackType.MEETING_CHOOSE, meetingChooseCallbackHandler,
-                CallbackType.CATEGORY_CHOOSE,categoryChooseCallbackHandler
+                CallbackType.CATEGORY_CHOOSE,categoryChooseCallbackHandler,
+                CallbackType.MEETING_LOCATION,viewMeetingLocationCallbackHandler
         );
     }
 

@@ -21,7 +21,7 @@ spring:
     show-sql: ${SHOW_SQL}
     database: postgresql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate.default_schema: ${POSTGRES_SCHEMA}
     open-in-view: false
