@@ -2,7 +2,7 @@ package by.st.meetingwithfriendsbot.telegram.commands;
 
 import by.st.meetingwithfriendsbot.model.Meeting;
 import by.st.meetingwithfriendsbot.model.enums.CallbackType;
-import by.st.meetingwithfriendsbot.service.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

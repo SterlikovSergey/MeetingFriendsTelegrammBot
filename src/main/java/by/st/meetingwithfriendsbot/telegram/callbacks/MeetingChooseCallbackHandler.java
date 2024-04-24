@@ -3,6 +3,7 @@ package by.st.meetingwithfriendsbot.telegram.callbacks;
 import by.st.meetingwithfriendsbot.model.Callback;
 import by.st.meetingwithfriendsbot.model.Language;
 import by.st.meetingwithfriendsbot.model.Meeting;
+import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
 import by.st.meetingwithfriendsbot.service.MeetingApiClient;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

@@ -7,15 +7,10 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import org.telegram.telegrambots.meta.api.objects.webapp.WebAppData;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -35,7 +30,12 @@ public class StartCommand implements Command {
 
     @Override
     public SendMessage applySendMessage(Update update) {
-        return null;
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setText(CommandConstants.GREETINGS);
+        addKeyboard(sendMessage);
+        return sendMessage;
     }
 
     private void addKeyboard(SendMessage sendMessage) {
@@ -44,7 +44,7 @@ public class StartCommand implements Command {
 
         KeyboardRow firstLayer = new KeyboardRow();
         firstLayer.add(CommandConstants.MEETING_CATEGORIES);
-        firstLayer.add("Вопрос/Ответ");
+        firstLayer.add(CommandConstants.FAQ);
         firstLayer.add(CommandConstants.CREATE_MEETING);
         keyboardRows.add(firstLayer);
 
@@ -58,6 +58,7 @@ public class StartCommand implements Command {
 
         KeyboardRow thirdLayer = new KeyboardRow();
         thirdLayer.add(CommandConstants.CHECK_REGISTRATION);
+        thirdLayer.add(CommandConstants.GET_VISA);
         keyboardRows.add(thirdLayer);
 
         replyKeyboardMarkup.setKeyboard(keyboardRows);

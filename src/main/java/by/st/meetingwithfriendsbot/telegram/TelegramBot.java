@@ -9,8 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
+
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,8 +27,6 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMediaVideo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.List;
 
 @Component
@@ -82,10 +81,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
             } else if (update.getMessage().hasLocation()) {
                 sendMessages(commandsHandler.handleCommands(update));
-
-                /*sendMessage(new SendMessage(chatId, "unknown command please enter /start"));*/
-
-
                 log.info(update.getMessage().getChat().getUserName() + " Запрос локации ⁉️");
             }
         } else if (update.hasCallbackQuery()) {

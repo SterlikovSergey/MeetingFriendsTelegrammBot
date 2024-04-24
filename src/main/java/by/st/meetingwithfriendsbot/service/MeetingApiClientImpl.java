@@ -2,10 +2,10 @@ package by.st.meetingwithfriendsbot.service;
 
 import by.st.meetingwithfriendsbot.config.ApiEndpoints;
 import by.st.meetingwithfriendsbot.model.Meeting;
+import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package by.st.meetingwithfriendsbot.service;
+package by.st.meetingwithfriendsbot.service.impl;
 
 import by.st.meetingwithfriendsbot.model.Meeting;
 
@@ -8,6 +8,5 @@ public interface MeetingApiClient {
     List<Meeting> getAllMeetings();
     Meeting createMeeting(Meeting newMeeting);
     Meeting getMetingBy(String id);
-
     List<Meeting> getMeetingsByCategoryId(String id);
 }
