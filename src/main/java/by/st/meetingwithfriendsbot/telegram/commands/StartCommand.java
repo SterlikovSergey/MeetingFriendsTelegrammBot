@@ -52,9 +52,13 @@ public class StartCommand implements Command {
         KeyboardButton locationButton = new KeyboardButton(CommandConstants.MY_LOCATION);
         locationButton.setRequestLocation(true);
 
+        KeyboardButton contactButton = new KeyboardButton("My Contact Phone");
+        contactButton.setRequestContact(true);
+
         KeyboardRow secondLayer = new KeyboardRow();
         secondLayer.add("Админка");
         secondLayer.add(locationButton);
+        secondLayer.add(contactButton);
         keyboardRows.add(secondLayer);
 
         KeyboardRow thirdLayer = new KeyboardRow();
