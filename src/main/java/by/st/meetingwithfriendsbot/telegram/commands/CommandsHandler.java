@@ -18,14 +18,16 @@ public class CommandsHandler {
                            @Autowired CreateMeetingCommand createMeetingCommand,
                            @Autowired ViewMeetingCategoriesCommand viewMeetingCategoriesCommand,
                            @Autowired ViewFaqCategoriesCommand viewFaqCategoriesCommand,
-                           @Autowired ViewMyLocation viewMylocation) {
+                           @Autowired ViewMyLocation viewMylocation,
+                           @Autowired RegistrationCommand registrationCommand) {
         this.commands = Map.of(
                 CommandConstants.START, startCommand,
                 CommandConstants.CREATE_MEETING, createMeetingCommand,
                 CommandConstants.MEETING_CATEGORIES, viewMeetingCategoriesCommand,
                 CommandConstants.RETURN_MAIN_MENU, startCommand,
                 CommandConstants.FAQ, viewFaqCategoriesCommand,
-                CommandConstants.MY_LOCATION,viewMylocation
+                CommandConstants.MY_LOCATION,viewMylocation,
+                CommandConstants.CHECK_REGISTRATION,registrationCommand
         );
     }
 
@@ -33,7 +35,10 @@ public class CommandsHandler {
         String command = update.getMessage().getText();
         Long chatId = update.getMessage().getChatId();
         if (update.getMessage().hasLocation()) {
-            var commandHandler = commands.get(CommandConstants.MY_LOCATION);
+            var commandHandler = commands.get(CommandConstants.CHECK_REGISTRATION);
+            return commandHandler.apply(update);
+        } else if (update.getMessage().hasContact()) {
+            var commandHandler = commands.get(CommandConstants.CHECK_REGISTRATION);
             return commandHandler.apply(update);
         } else {
             var commandHandler = commands.get(command);

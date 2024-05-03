@@ -1,7 +1,9 @@
 package by.st.meetingwithfriendsbot.telegram.commands;
 
+import by.st.meetingwithfriendsbot.service.UserService;
 import by.st.meetingwithfriendsbot.utils.CommandConstants;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -17,7 +19,9 @@ import java.util.Collections;
 import java.util.List;
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class ViewMyLocation implements Command{
+    private final UserService userService;
     @Override
     public SendMessage applySendMessage(Update update) {
         return null;
@@ -30,8 +34,8 @@ public class ViewMyLocation implements Command{
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Локация установлена");
-
+        sendMessage.setText("Место где вы находитесь 👇");
+        userService.saveUserLocation(chatId, location);
         @NonNull Double latitude = location.getLatitude();
         @NonNull Double longitude = location.getLongitude();
         log.info("Обработана локация: " + latitude + " " + longitude);

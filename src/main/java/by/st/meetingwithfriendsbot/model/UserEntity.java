@@ -22,6 +22,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "telegram_id", unique = true)
+    private Long telegramId;
+
     @Column(name = "name")
     private String name;
 
@@ -43,6 +46,12 @@ public class UserEntity {
 
     @Column(name = "photo_url")
     private String photoUrl;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Preference> preferences;
