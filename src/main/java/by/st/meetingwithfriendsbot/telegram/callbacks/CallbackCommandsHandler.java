@@ -20,13 +20,15 @@ public class CallbackCommandsHandler {
             @Autowired MeetingChooseCallbackHandler meetingChooseCallbackHandler,
             @Autowired CategoryChooseCallbackHandler categoryChooseCallbackHandler,
             @Autowired FaqCategoryCallbackHandler faqCategoryCallbackHandler,
-            @Autowired ViewMeetingLocationCallbackHandler viewMeetingLocationCallbackHandler
+            @Autowired ViewMeetingLocationCallbackHandler viewMeetingLocationCallbackHandler,
+            @Autowired ViewWeatherCallbackHandler viewWeatherCallbackHandler
     ) {
         this.callbackHandlers = Map.of(
                 CallbackType.MEETING_CHOOSE, meetingChooseCallbackHandler,
                 CallbackType.CATEGORY_CHOOSE, categoryChooseCallbackHandler,
                 CallbackType.FAQ_CATEGORY, faqCategoryCallbackHandler,
-                CallbackType.MEETING_LOCATION,viewMeetingLocationCallbackHandler       
+                CallbackType.MEETING_LOCATION,viewMeetingLocationCallbackHandler,
+                CallbackType.MEETING_WEATHER, viewWeatherCallbackHandler
         );
     }
 

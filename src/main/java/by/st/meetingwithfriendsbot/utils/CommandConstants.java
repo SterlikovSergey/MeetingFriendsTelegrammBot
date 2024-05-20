@@ -1,5 +1,8 @@
 package by.st.meetingwithfriendsbot.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CommandConstants {
     public static final String START = "/start";
     public static final String MEETING_CATEGORIES = "Категории встреч";
@@ -12,7 +15,15 @@ public class CommandConstants {
     public static final String HELP_MESSAGE = "Type /start to see a welcome message \n" +
             "Type /help to see this message again ";
     public static final String GET_VISA = "Получить визу";
-    public  static final String MY_LOCATION = "Моя локация ⁉️";
+    public static final String MY_LOCATION = "Моя локация ⁉️";
     public static final String REQUEST_EMAIL = "/request_email";
+    public final static Map<String, String> weatherIconsCodes = new HashMap<>();
+
+    static {
+        weatherIconsCodes.put("Clear", "☀");
+        weatherIconsCodes.put("Rain", "☔");
+        weatherIconsCodes.put("Snow", "❄");
+        weatherIconsCodes.put("Clouds", "☁");
+    }
 
 }
