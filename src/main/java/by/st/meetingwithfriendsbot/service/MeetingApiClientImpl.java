@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +39,18 @@ public class MeetingApiClientImpl implements MeetingApiClient {
     public List<Meeting> getMeetingsByCategoryId(String id) {
         List<Meeting> allMeetings = getAllMeetings();
         return allMeetings.stream()
+                // Фильтрация по ID категории
                 .filter(meeting -> id.equals(meeting.getCategory().getId().toString()))
+                // Фильтрация по дате встречи, которая должна быть позже текущей даты
+                .filter(meeting -> meeting.getMeetingDate().isAfter(LocalDateTime.now()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Meeting> getUpcomingMeetings() {
+        List<Meeting> allMeetings = getAllMeetings();
+        return allMeetings.stream()
+                .filter(meeting -> meeting.getMeetingDate().isAfter(LocalDateTime.now()))
                 .collect(Collectors.toList());
     }
 }

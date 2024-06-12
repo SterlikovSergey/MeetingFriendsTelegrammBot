@@ -9,4 +9,5 @@ public interface MeetingApiClient {
     Meeting createMeeting(Meeting newMeeting);
     Meeting getMetingBy(String id);
     List<Meeting> getMeetingsByCategoryId(String id);
+    List<Meeting>  getUpcomingMeetings();
 }

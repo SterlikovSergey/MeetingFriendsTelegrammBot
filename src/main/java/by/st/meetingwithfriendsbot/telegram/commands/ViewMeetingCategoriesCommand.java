@@ -32,7 +32,7 @@ public class ViewMeetingCategoriesCommand implements Command {
     @Override
     public List<PartialBotApiMethod<?>> apply(Update update) {
         Long chatId = update.getMessage().getChatId();
-        List<Meeting> meetings = meetingApiClient.getAllMeetings();
+        List<Meeting> meetings = meetingApiClient.getUpcomingMeetings();
 
         Map<String, List<Meeting>> meetingsByCategory = meetings.stream()
                 .collect(Collectors.groupingBy(m -> m.getCategory().getName()));
