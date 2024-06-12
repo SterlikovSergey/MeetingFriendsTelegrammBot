@@ -1,13 +1,13 @@
-package by.st.meetingwithfriendsbot.service;
+package by.st.meetingwithfriendsbot.service.impl;
 
 import by.st.meetingwithfriendsbot.config.ApiEndpoints;
 import by.st.meetingwithfriendsbot.model.Meeting;
-import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.RestTemplateHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;

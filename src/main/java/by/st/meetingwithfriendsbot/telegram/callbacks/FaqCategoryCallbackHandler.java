@@ -2,7 +2,7 @@ package by.st.meetingwithfriendsbot.telegram.callbacks;
 
 import by.st.meetingwithfriendsbot.model.Callback;
 import by.st.meetingwithfriendsbot.model.FAQ;
-import by.st.meetingwithfriendsbot.service.impl.FaqApiClient;
+import by.st.meetingwithfriendsbot.service.FaqApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;

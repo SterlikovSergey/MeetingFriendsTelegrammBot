@@ -2,7 +2,7 @@ package by.st.meetingwithfriendsbot.controller;
 
 import by.st.meetingwithfriendsbot.model.Meeting;
 import by.st.meetingwithfriendsbot.service.MeetingService;
-import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.MeetingApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

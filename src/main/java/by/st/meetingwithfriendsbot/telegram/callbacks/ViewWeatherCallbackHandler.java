@@ -4,7 +4,7 @@ import by.st.meetingwithfriendsbot.api.WeatherParser;
 import by.st.meetingwithfriendsbot.model.Callback;
 import by.st.meetingwithfriendsbot.model.Meeting;
 import by.st.meetingwithfriendsbot.model.enums.CallbackType;
-import by.st.meetingwithfriendsbot.service.impl.MeetingApiClient;
+import by.st.meetingwithfriendsbot.service.MeetingApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;

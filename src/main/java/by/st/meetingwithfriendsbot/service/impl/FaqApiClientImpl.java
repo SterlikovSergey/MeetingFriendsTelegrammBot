@@ -1,8 +1,9 @@
-package by.st.meetingwithfriendsbot.service;
+package by.st.meetingwithfriendsbot.service.impl;
 
 import by.st.meetingwithfriendsbot.config.ApiEndpoints;
 import by.st.meetingwithfriendsbot.model.FAQ;
-import by.st.meetingwithfriendsbot.service.impl.FaqApiClient;
+import by.st.meetingwithfriendsbot.service.FaqApiClient;
+import by.st.meetingwithfriendsbot.service.RestTemplateHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

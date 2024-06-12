@@ -1,4 +1,4 @@
-package by.st.meetingwithfriendsbot.service.impl;
+package by.st.meetingwithfriendsbot.service;
 
 import by.st.meetingwithfriendsbot.model.FAQ;
 
