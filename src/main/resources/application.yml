@@ -29,3 +29,7 @@ spring:
 bot:
   name: ${BOT_NAME}
   token: ${BOT_TOKEN}
+
+weather:
+  open-weather-url-part-one: ${OPEN_WEATHER_PART_ONE}
+  open-weather-url-part-two: ${OPEN_WEATHER_PART_TWO}
